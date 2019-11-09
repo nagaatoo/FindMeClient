@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FindMeClient</string>
+    <string name="title_activity_maps">Найди меня</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="poX">TextView</string>
+    <string name="textview">TextView</string>
+</resources>
