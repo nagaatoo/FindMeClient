@@ -1,6 +1,5 @@
 package com.example.findmeclient.service
 
-interface ConnectionService {
-    fun connect()
+interface SocketService {
     fun sendCoordinates(x: Double, y: Double)
 }

@@ -4,13 +4,12 @@ import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
 import android.widget.TextView
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.example.findmeclient.service.SocketService
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
-class FindLocationListener(val map: GoogleMap, val field: TextView) : LocationListener {
+class FindLocationListener(val map: MapView, val field: TextView, val socketService: SocketService) : LocationListener {
 
     private var marker: Marker? = null
 
@@ -19,6 +18,7 @@ class FindLocationListener(val map: GoogleMap, val field: TextView) : LocationLi
             val latitude = location.latitude
             val longitude = location.longitude
             field.text = "X:$latitude Y:$longitude"
+            socketService.sendCoordinates(latitude, longitude);
             markPoint(latitude, longitude)
         }
     }
@@ -33,14 +33,11 @@ class FindLocationListener(val map: GoogleMap, val field: TextView) : LocationLi
     }
 
     private fun markPoint(latit: Double, longi: Double) {
-        val me = LatLng(latit, longi)
-        if (marker == null) {
-            marker = map.addMarker(MarkerOptions().position(me).title("Me"))
-        } else {
-            marker!!.setPosition(me)
-            marker!!.setTitle("Test")
-        }
-        map.moveCamera(CameraUpdateFactory.newLatLng(me))
+        val startMarker = Marker(map)
+        startMarker.position = GeoPoint(latit, longi)
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        startMarker.title = "Вы тут"
+        map.overlays.add(startMarker)
     }
 
 
